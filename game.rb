@@ -2,20 +2,20 @@ class Game
   def initialize(player1, player2)
     @players = [player1, player2]
     @current_player_index = 0
-    @math_problem = MathProblem.new
   end
 
   def start_game
     loop do
       current_player = @players[@current_player_index]
+      math_problem = MathProblem.new  # Create a new MathProblem object for each turn
       puts "#{current_player.name}, here's your question:"
-      puts @math_problem.generate_problem
+      puts math_problem.generate_problem
 
       user_answer = gets.chomp
 
-      current_player.answer_question(@math_problem, user_answer)
+      current_player.answer_question(math_problem, user_answer)
 
-      @players.each { |player| player.display_score }
+      @players.each { |player| puts "#{player.name}'s Score: #{player.score}, Lives: #{player.lives}" }
 
       break if game_over?
       
@@ -38,6 +38,6 @@ class Game
   def announce_winner
     winner = @players.find { |player| player.lives > 0 }
     puts "#{winner.name} wins! Final scores:"
-    @players.each { |player| player.display_score }
+    @players.each { |player| puts "#{player.name}'s Score: #{player.score}, Lives: #{player.lives}" }
   end
 end
